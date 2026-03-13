@@ -19,8 +19,46 @@
   --green: #27ae60;
   --red: #c0392b;
   --r: 12px;
+} 
+  <script>
+const API_KEY = "$2a$10$Audz4vGAy7q9sAMdPeMdt.ypUVyL17UU/hXgBkT/ftzJmxBW4Lo6K";
+const BIN_ID = "69b471bcb7ec241ddc67a311";
+
+function saveBooking(name, service, time){
+
+fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
+method: "GET",
+headers: {
+"X-Master-Key": API_KEY
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+})
+.then(res => res.json())
+.then(data => {
+
+let bookings = data.record.bookings || [];
+
+bookings.push({
+name: name,
+service: service,
+time: time
+});
+
+fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
+method: "PUT",
+headers: {
+"Content-Type": "application/json",
+"X-Master-Key": API_KEY
+},
+body: JSON.stringify({
+bookings: bookings
+})
+});
+
+});
+
+}
+</script>
+* { box-sizing: border-box; margin: 0; padding: 0; } 
 body { background: var(--bg); color: var(--text); font-family: Cairo, sans-serif; min-height: 100vh; }
 
 /* HEADER */
@@ -330,7 +368,7 @@ document.getElementById('manifest-placeholder').href = url;
 
 <script>
 const WA = '201270048471';
-const PASS = '1234';
+const PASS = '1352009';
 
 const SERVICES = [
   {id:'s1',  name:'حلاقة شعر',                          ic:'✂️',  price:100, dur:'30 دقيقة'},
